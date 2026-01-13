@@ -413,6 +413,16 @@ class ToolDetectionApp {
             if (topPrediction.probability >= Config.MIN_CONFIDENCE) {
                 this.updateUI(topPrediction);
                 this.updateStats(topPrediction);
+            } else {
+                // Show "Searching..." state if confidence is low but system is running
+                // This gives visual feedback that the AI is actually working
+                this.dom.label.textContent = "Mencari...";
+                this.dom.category.textContent = "Kategori: -";
+                this.dom.confidence.textContent = `${(topPrediction.probability * 100).toFixed(1)}%`;
+                this.dom.confidenceBar.style.width = `${(topPrediction.probability * 100).toFixed(1)}%`;
+                // Change bar color to indicate low confidence
+                this.dom.confidenceBar.classList.remove('bg-primary');
+                this.dom.confidenceBar.classList.add('bg-slate-400');
             }
 
         } catch (error) {
