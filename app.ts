@@ -258,8 +258,22 @@ class ToolDetectionApp {
 
             // Stop current webcam if exists
             if (this.state.webcam) {
+                // Try to stop the stream tracks explicitly to release camera
+                if (this.state.webcam.canvas && this.state.webcam.canvas.srcObject) {
+                    const tracks = this.state.webcam.canvas.srcObject.getTracks();
+                    tracks.forEach((track: any) => track.stop());
+                }
+                // Also check the video element itself if accessible (tmImage implementation detail)
+                if (this.state.webcam.webcam && this.state.webcam.webcam.srcObject) {
+                    const tracks = this.state.webcam.webcam.srcObject.getTracks();
+                    tracks.forEach((track: any) => track.stop());
+                }
+
                 this.state.webcam.stop();
             }
+
+            // Create a small delay to ensure device is released
+            await new Promise(resolve => setTimeout(resolve, 500));
 
             // Re-initialize webcam with new mode
             await this.initWebcam();
