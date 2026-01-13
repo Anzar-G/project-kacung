@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html class="dark" lang="id">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>AI Tool Detection Dashboard</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
     <!-- TensorFlow.js and Teachable Machine -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-    
+    <script
+        src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
     <!-- Tailwind Config -->
     <script id="tailwind-config">
         tailwind.config = {
@@ -30,24 +34,27 @@
                     fontFamily: {
                         "display": ["Space Grotesk", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
             },
         }
     </script>
-    
+
     <style>
         body {
             font-family: 'Space Grotesk', sans-serif;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col">
     <!-- Top Navigation Bar -->
-    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+    <header
+        class="border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="bg-primary p-1.5 rounded-lg text-white">
@@ -58,12 +65,15 @@
             <nav class="hidden md:flex items-center gap-8">
                 <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
                 <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Riwayat</a>
-                <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Pengaturan</a>
+                <a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors"
+                    href="#">Pengaturan</a>
             </nav>
             <div class="flex items-center gap-4">
-                <div id="system-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                <div id="system-status"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                     <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
                     <span class="text-[12px] font-bold text-emerald-500 uppercase tracking-wider">Sistem Aktif</span>
@@ -71,8 +81,10 @@
                 <button class="p-2 text-slate-400 hover:text-white transition-colors">
                     <span class="material-symbols-outlined">notifications</span>
                 </button>
-                <div class="h-8 w-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden">
-                    <img class="w-full h-full object-cover" alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEydcuVUfNVOTPM-R9HNo8kg2hmyE1d7x9yO0r2wGNPJdP08-JVIM9jhTwxwspd5rlpUsNajUfyVL2TQy3IEv07eSWYj3fPWNObF7vOdGpqB_pDAra6QAHcD-ng-YAp_cWVvmQXAt_L24zUBERpTHcHP39l2FUdUnisbJO--Hh8D8BgK2bDzdGz0q2s1VFiW5P5yOVJ7z3RuVk5m_7aAortzCXWoRhTJo4CMfbzA4w4g2E7917XcIctHw3RhWjnELpPyWIR7O-Gh67"/>
+                <div
+                    class="h-8 w-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden">
+                    <img class="w-full h-full object-cover" alt="User profile avatar"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEydcuVUfNVOTPM-R9HNo8kg2hmyE1d7x9yO0r2wGNPJdP08-JVIM9jhTwxwspd5rlpUsNajUfyVL2TQy3IEv07eSWYj3fPWNObF7vOdGpqB_pDAra6QAHcD-ng-YAp_cWVvmQXAt_L24zUBERpTHcHP39l2FUdUnisbJO--Hh8D8BgK2bDzdGz0q2s1VFiW5P5yOVJ7z3RuVk5m_7aAortzCXWoRhTJo4CMfbzA4w4g2E7917XcIctHw3RhWjnELpPyWIR7O-Gh67" />
                 </div>
             </div>
         </div>
@@ -84,53 +96,69 @@
             <div class="lg:col-span-8 flex flex-col gap-6">
                 <div class="relative group">
                     <!-- Webcam Container -->
-                    <div class="relative aspect-video rounded-xl overflow-hidden bg-black border-2 border-primary/30 shadow-2xl shadow-primary/10">
+                    <div
+                        class="relative aspect-video rounded-xl overflow-hidden bg-black border-2 border-primary/30 shadow-2xl shadow-primary/10">
                         <!-- Webcam Canvas (will be populated by Teachable Machine) -->
                         <div id="webcam-container" class="absolute inset-0 flex items-center justify-center">
                             <p class="text-white/50 text-center">Kamera akan muncul di sini</p>
                         </div>
-                        
+
                         <!-- Scanning Overlay Effect -->
-                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none opacity-20"></div>
-                        
+                        <div
+                            class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none opacity-20">
+                        </div>
+
                         <!-- Loading/Status Overlay -->
-                        <div id="loading" class="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
+                        <div id="loading"
+                            class="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
                             <div class="text-center">
-                                <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                                <div
+                                    class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4">
+                                </div>
                                 <p class="text-white font-medium">Memuat Model AI...</p>
                             </div>
                         </div>
-                        
+
                         <!-- Error Display -->
-                        <div id="error" class="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+                        <div id="error"
+                            class="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
                             <div class="text-center px-6">
                                 <span class="material-symbols-outlined text-red-500 text-6xl mb-4">error</span>
                                 <p id="error-message" class="text-white font-medium"></p>
                             </div>
                         </div>
-                        
+
                         <!-- Controls Overlay (Bottom) -->
                         <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4">
-                            <button id="btn-start" class="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-bold transition-all shadow-lg">
+                            <!-- Switch Camera Button -->
+                            <button id="btn-switch-camera"
+                                class="flex items-center justify-center p-3 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white backdrop-blur-md border border-white/10 transition-all"
+                                title="Ganti Kamera">
+                                <span class="material-symbols-outlined">flip_camera_ios</span>
+                            </button>
+
+                            <button id="btn-start"
+                                class="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-bold transition-all shadow-lg">
                                 <span class="material-symbols-outlined">play_arrow</span>
                                 Mulai Deteksi
                             </button>
-                            <button id="btn-stop" class="flex items-center gap-2 bg-slate-900/80 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-bold transition-all backdrop-blur-md hidden">
+                            <button id="btn-stop"
+                                class="flex items-center gap-2 bg-slate-900/80 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-bold transition-all backdrop-blur-md hidden">
                                 <span class="material-symbols-outlined">stop</span>
                                 Stop
                             </button>
                         </div>
                     </div>
-                    
+
                     <!-- Feed Meta Info -->
                     <div class="mt-4 flex items-center justify-between text-slate-400 text-sm">
                         <div class="flex items-center gap-4">
                             <span class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[18px]">videocam</span> 
+                                <span class="material-symbols-outlined text-[18px]">videocam</span>
                                 <span id="stream-quality">Menunggu...</span>
                             </span>
                             <span class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[18px]">timer</span> 
+                                <span class="material-symbols-outlined text-[18px]">timer</span>
                                 <span id="inference-time">0ms</span>
                             </span>
                         </div>
@@ -140,31 +168,36 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Detection Stats Section -->
                 <div class="grid grid-cols-3 gap-4">
-                    <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div
+                        class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Total Terdeteksi</p>
                         <h3 id="total-detected" class="text-2xl font-bold">0</h3>
                     </div>
-                    <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div
+                        class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Akurasi Rata-rata</p>
                         <h3 id="avg-accuracy" class="text-2xl font-bold">0%</h3>
                     </div>
-                    <div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div
+                        class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-1">Uptime Sesi</p>
                         <h3 id="uptime" class="text-2xl font-bold">00:00:00</h3>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Right Side: Results Panel -->
             <div class="lg:col-span-4 flex flex-col gap-6">
                 <!-- Current Result Card -->
-                <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border-2 border-primary shadow-xl shadow-primary/5">
+                <div
+                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border-2 border-primary shadow-xl shadow-primary/5">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="font-bold text-slate-500 uppercase tracking-widest text-xs">Deteksi Terkini</h2>
-                        <span id="realtime-badge" class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold">STANDBY</span>
+                        <span id="realtime-badge"
+                            class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold">STANDBY</span>
                     </div>
                     <div class="mb-8">
                         <p id="label" class="text-4xl font-bold mb-2 tracking-tight">Menunggu...</p>
@@ -179,31 +212,37 @@
                             <span id="confidence" class="text-primary">0%</span>
                         </div>
                         <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                            <div id="confidence-bar" class="h-full bg-primary w-0 rounded-full shadow-[0_0_12px_rgba(13,89,242,0.5)] transition-all duration-300"></div>
+                            <div id="confidence-bar"
+                                class="h-full bg-primary w-0 rounded-full shadow-[0_0_12px_rgba(13,89,242,0.5)] transition-all duration-300">
+                            </div>
                         </div>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex gap-2">
-                        <button class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 py-2.5 rounded-lg text-sm font-bold transition-colors">
+                        <button
+                            class="flex-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 py-2.5 rounded-lg text-sm font-bold transition-colors">
                             Simpan Log
                         </button>
-                        <button class="flex-1 border border-slate-200 dark:border-slate-800 hover:border-primary py-2.5 rounded-lg text-sm font-bold transition-colors">
+                        <button
+                            class="flex-1 border border-slate-200 dark:border-slate-800 hover:border-primary py-2.5 rounded-lg text-sm font-bold transition-colors">
                             Koreksi
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Recent History -->
-                <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex-1">
+                <div
+                    class="bg-white dark:bg-slate-900/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex-1">
                     <h2 class="font-bold text-slate-500 uppercase tracking-widest text-xs mb-4">Riwayat Sesi</h2>
                     <div id="history-list" class="space-y-4">
                         <p class="text-slate-500 text-sm text-center py-8">Belum ada riwayat deteksi</p>
                     </div>
-                    <button class="w-full mt-6 text-sm font-bold text-primary hover:underline">Lihat Semua Riwayat</button>
+                    <button class="w-full mt-6 text-sm font-bold text-primary hover:underline">Lihat Semua
+                        Riwayat</button>
                 </div>
             </div>
         </div>
     </main>
-    
+
     <!-- Footer -->
     <footer class="border-t border-slate-200 dark:border-slate-800 py-6 mt-12 bg-white dark:bg-background-dark">
         <div class="max-w-[1440px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -218,8 +257,9 @@
             </div>
         </div>
     </footer>
-    
+
     <!-- TypeScript Application -->
     <script src="app.js"></script>
 </body>
+
 </html>

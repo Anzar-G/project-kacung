@@ -25,6 +25,7 @@ class AppState {
         this.history = [];
         this.animationFrameId = null;
         this.uptimeInterval = null;
+        this.facingMode = 'user'; // Default camera (front)
     }
 }
 // ==================== DOM ELEMENTS ====================
@@ -37,6 +38,7 @@ class DOMElements {
         this.errorMessage = this.getElement('error-message');
         this.btnStart = this.getElement('btn-start');
         this.btnStop = this.getElement('btn-stop');
+        this.btnSwitch = this.getElement('btn-switch-camera');
         this.label = this.getElement('label');
         this.confidence = this.getElement('confidence');
         this.confidenceBar = this.getElement('confidence-bar');
@@ -86,6 +88,7 @@ class ToolDetectionApp {
     setupEventListeners() {
         this.dom.btnStart.addEventListener('click', () => this.startDetection());
         this.dom.btnStop.addEventListener('click', () => this.stopDetection());
+        this.dom.btnSwitch.addEventListener('click', () => this.switchCamera());
     }
     /**
      * Start detection process
@@ -160,6 +163,33 @@ class ToolDetectionApp {
         console.log('✅ Detection stopped');
     }
     /**
+     * Ganti kamera (Depan <-> Belakang)
+     */
+    async switchCamera() {
+        try {
+            console.log('🔄 Switching camera...');
+            // Toggle mode
+            this.state.facingMode = this.state.facingMode === 'user' ? 'environment' : 'user';
+            // Show loading state
+            this.showLoading(true);
+            // Stop current webcam if exists
+            if (this.state.webcam) {
+                this.state.webcam.stop();
+            }
+            // Re-initialize webcam with new mode
+            await this.initWebcam();
+            this.showLoading(false);
+            console.log(`✅ Camera switched to ${this.state.facingMode}`);
+        }
+        catch (error) {
+            console.error('❌ Error switching camera:', error);
+            this.showError(`Gagal ganti kamera: ${error.message}`);
+            this.showLoading(false);
+            // Revert state if failed
+            this.state.facingMode = this.state.facingMode === 'user' ? 'environment' : 'user';
+        }
+    }
+    /**
      * Load Teachable Machine model
      */
     async loadModel() {
@@ -205,9 +235,9 @@ class ToolDetectionApp {
         try {
             console.log('📹 Initializing webcam...');
             // Request webcam permission and initialize
-            const flip = true; // flip camera for mirror effect
+            const flip = this.state.facingMode === 'user'; // Mirror only if using front camera
             this.state.webcam = new tmImage.Webcam(640, 480, flip);
-            await this.state.webcam.setup();
+            await this.state.webcam.setup({ facingMode: this.state.facingMode });
             await this.state.webcam.play();
             // Clear container and append webcam canvas
             this.dom.webcamContainer.innerHTML = '';
